@@ -31,7 +31,7 @@ public class PigeonUserDetailsService implements UserDetailsService {
 
     @PostConstruct
     public void init() {
-        log.info("PigeonUserDetailsService init...");
+        log.info("=== security === PigeonUserDetailsService init...");
     }
 
     @Override
