@@ -4,6 +4,7 @@ import cn.yiidii.pigeon.common.security.config.ResourceServerConfig;
 import cn.yiidii.pigeon.common.security.config.TokenStoreConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 import java.lang.annotation.Documented;
@@ -18,6 +19,7 @@ import java.lang.annotation.Target;
 @Target({java.lang.annotation.ElementType.TYPE})
 @Documented
 @EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import({TokenStoreConfig.class, ResourceServerConfig.class})
 @Configuration
 public @interface EnableResource {
