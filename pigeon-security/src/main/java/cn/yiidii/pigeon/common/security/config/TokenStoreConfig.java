@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
  * @create: 2021-02-12 10:29
  */
 @Slf4j
+@Configuration
 public class TokenStoreConfig {
 
     @PostConstruct
