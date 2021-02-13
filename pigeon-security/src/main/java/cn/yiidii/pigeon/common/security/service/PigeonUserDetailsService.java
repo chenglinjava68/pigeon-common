@@ -5,10 +5,9 @@ import cn.yiidii.pigeon.common.core.exception.BizException;
 import cn.yiidii.pigeon.rbac.api.dto.ResourceDTO;
 import cn.yiidii.pigeon.rbac.api.dto.UserDTO;
 import cn.yiidii.pigeon.rbac.api.feign.UserFeign;
-import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -43,16 +42,30 @@ public class PigeonUserDetailsService implements UserDetailsService {
         if (Objects.isNull(userDTO)) {
             throw new BizException("用户不存在");
         }
-        log.debug("loadUserByUsername userDTO: {}", JSONObject.toJSON(userDTO));
+
+        return getUserDetails(result);
+    }
+
+    /**
+     * 构建userdetails
+     *
+     * @param result 用户信息
+     * @return
+     */
+    private UserDetails getUserDetails(R<UserDTO> result) {
+        if (result == null || result.getData() == null) {
+            throw new UsernameNotFoundException("用户不存在");
+        }
+
+        UserDTO userDTO = result.getData();
         //根据用户的id查询用户的权限
         List<ResourceDTO> resourceDTOs = userDTO.getResources();
         List<String> resources = resourceDTOs.stream().map(ResourceDTO::getCode).collect(Collectors.toList());
         //将permissions转成数组
         String[] permissionArray = new String[resources.size()];
         resources.toArray(permissionArray);
-        //将userDto转成json
-//        String principal = JSON.toJSONString(userDto);
-        UserDetails userDetails = User.withUsername(userDTO.getUsername()).password(userDTO.getPassword()).authorities(permissionArray).build();
-        return userDetails;
+        // 构造security用户
+        return new PigeonUser(userDTO.getId(), userDTO.getUsername(), userDTO.getPassword(),
+                true, true, true, true, AuthorityUtils.createAuthorityList(permissionArray));
     }
 }
