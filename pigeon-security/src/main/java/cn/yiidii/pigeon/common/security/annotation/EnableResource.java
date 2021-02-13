@@ -15,7 +15,6 @@ import java.lang.annotation.Target;
 @Target({ java.lang.annotation.ElementType.TYPE })
 @Documented
 @Import({ })
-@EnableSecurity
 @Configuration
 public @interface EnableResource {
 }
