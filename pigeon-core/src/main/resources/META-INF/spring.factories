@@ -1,5 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   cn.yiidii.pigeon.common.core.config.JacksonConfiguration,\
   cn.yiidii.pigeon.common.core.config.WebMvcConfiguration,\
-  cn.yiidii.pigeon.common.core.config.GlobalExceptionHandler
+  cn.yiidii.pigeon.common.core.config.GlobalExceptionHandler,\
+  cn.yiidii.pigeon.common.core.redis.RedisServiceAutoConfigure
 
