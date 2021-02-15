@@ -1,5 +1,8 @@
 package cn.yiidii.pigeon.common.security.config;
 
+import cn.yiidii.pigeon.common.security.handler.PigeonAccessDeniedHandler;
+import cn.yiidii.pigeon.common.security.handler.PigeonAuthenticationEntryPoint;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -18,7 +21,12 @@ import java.util.List;
  * @create: 2021-02-13 21:49
  */
 @Slf4j
+@Import({PigeonAccessDeniedHandler.class, PigeonAuthenticationEntryPoint.class})
+@RequiredArgsConstructor
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    private final PigeonAccessDeniedHandler pigeonAccessDeniedHandler;
+    private final PigeonAuthenticationEntryPoint pigeonAuthenticationEntryPoint;
 
     @PostConstruct
     public void init() {
@@ -46,7 +54,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId("oauth-client").tokenStore(tokenStore);
+        resources
+                .resourceId("oauth-client")
+                .tokenStore(tokenStore)
+                .accessDeniedHandler(pigeonAccessDeniedHandler)
+                .authenticationEntryPoint(pigeonAuthenticationEntryPoint);
     }
 
 
