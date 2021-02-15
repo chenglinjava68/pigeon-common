@@ -4,6 +4,8 @@ package cn.yiidii.pigeon.common.core.base;
 import cn.yiidii.pigeon.common.core.constant.CommonConstants;
 import lombok.*;
 import lombok.experimental.Accessors;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
@@ -17,24 +19,29 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@ApiModel("通用响应模型")
 public class R<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Getter
     @Setter
+    @ApiModelProperty(value = "状态码")
     private int code;
 
     @Getter
     @Setter
+    @ApiModelProperty(value = "信息")
     private String msg;
 
     @Getter
     @Setter
+    @ApiModelProperty(value = "错误信息")
     private String errMsg;
 
     @Getter
     @Setter
+    @ApiModelProperty(value = "返回数据")
     private T data;
 
     public static <T> R<T> ok() {
