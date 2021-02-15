@@ -58,14 +58,6 @@ public class PigeonUserDetailsService implements UserDetailsService {
         }
 
         UserDTO userDTO = result.getData();
-        //根据用户的id查询用户的权限
-        List<ResourceDTO> resourceDTOs = userDTO.getResources();
-        List<String> resources = resourceDTOs.stream().map(ResourceDTO::getCode).collect(Collectors.toList());
-        //将permissions转成数组
-        String[] permissionArray = new String[resources.size()];
-        resources.toArray(permissionArray);
-        // 构造security用户
-        return new PigeonUser(userDTO.getId(), userDTO.getUsername(), userDTO.getPassword(),
-                true, true, true, true, AuthorityUtils.createAuthorityList(permissionArray));
+        return PigeonUser.transPigeonUser(userDTO);
     }
 }
