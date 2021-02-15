@@ -13,5 +13,7 @@ public interface BizConstants {
     /**
      * 业务项目 需要扫描的包
      */
-    String BUSINESS_PACKAGE = "cn.yiidii.pigeon";
+    String BUSINESS_PACKAGE = "cn.yiidii.pigeon.*";
+
+    String API_PACKAGE = "cn.yiidii.pigeon.*.api.*";
 }

@@ -28,7 +28,7 @@
 
         <swagger-models.version>1.5.22</swagger-models.version>
         <swagger-annotations.version>1.5.21</swagger-annotations.version>
-        <knife4j.version>2.0.2</knife4j.version>
+        <knife4j.version>3.0.2</knife4j.version>
         <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
         <apache.httpcomponents.version>4.5.6</apache.httpcomponents.version>
         <commons-lang3.version>3.11</commons-lang3.version>
