@@ -8,9 +8,8 @@
         <groupId>cn.yiidii.pigeon</groupId>
         <version>1.0.0</version>
     </parent>
-
     <artifactId>pigeon-security</artifactId>
-
+    <packaging>jar</packaging>
 
     <properties>
     </properties>
