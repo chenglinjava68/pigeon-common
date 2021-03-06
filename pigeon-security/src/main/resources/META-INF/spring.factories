@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   cn.yiidii.pigeon.common.security.service.PigeonUserDetailsService,\
-  cn.yiidii.pigeon.common.security.config.IgnoreUrlProperties
+  cn.yiidii.pigeon.common.security.config.IgnoreUrlProperties,\
+  cn.yiidii.pigeon.common.security.support.CurrentUserArgumentResolver
 
