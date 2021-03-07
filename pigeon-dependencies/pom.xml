@@ -36,6 +36,7 @@
         <apache.commons.io.version>2.8.0</apache.commons.io.version>
         <JustAuth.version>1.15.9</JustAuth.version>
         <seata.version>1.4.1</seata.version>
+        <dozer.version>6.5.0</dozer.version>
     </properties>
 
     <dependencyManagement>
@@ -199,6 +200,18 @@
                 <artifactId>seata-all</artifactId>
                 <version>${seata.version}</version>
             </dependency>
+            <!--dozer -->
+            <dependency>
+                <groupId>com.github.dozermapper</groupId>
+                <artifactId>dozer-core</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.dozermapper</groupId>
+                <artifactId>dozer-spring4</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
