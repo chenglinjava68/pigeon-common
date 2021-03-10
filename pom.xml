@@ -15,6 +15,7 @@
         <module>pigeon-core</module>
         <module>pigeon-security</module>
         <module>pigeon-knife4j</module>
+        <module>pigeon-rabbit</module>
     </modules>
 
     <properties>
