@@ -16,6 +16,7 @@
         <module>pigeon-security</module>
         <module>pigeon-knife4j</module>
         <module>pigeon-rabbit</module>
+        <module>pigeon-mail</module>
     </modules>
 
     <properties>
