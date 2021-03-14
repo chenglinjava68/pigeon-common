@@ -51,7 +51,7 @@ public class SuperEntity<T> implements Serializable {
     /**
      * 保存和缺省验证组
      */
-    public interface Save extends Default {
+    public interface Add extends Default {
 
     }
 
