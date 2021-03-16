@@ -25,7 +25,7 @@ public final class TreeUtil {
      * @param treeList 待转换的集合
      * @return 树结构
      */
-    public static <E extends TreeEntity<E, ? extends Serializable>> Collection<E> buildTree(Collection<E> treeList) {
+    public static <E extends TreeEntity<E, ? extends Serializable>> List<E> buildTree(List<E> treeList) {
         if (CollUtil.isEmpty(treeList)) {
             return treeList;
         }
