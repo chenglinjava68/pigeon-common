@@ -3,10 +3,12 @@ package cn.yiidii.pigeon.common.core.base.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
  * @author zuihou
  * @date 2019/05/05
  */
+@SuperBuilder
 @Getter
 @Setter
 @Accessors(chain = true)
