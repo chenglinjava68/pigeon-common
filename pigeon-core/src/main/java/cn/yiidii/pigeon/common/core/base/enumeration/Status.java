@@ -36,7 +36,6 @@ public enum Status {
 
     @EnumValue
     private int code;
-    @JsonValue
     private String desc;
 
     public static Status get(int val, Status def) {
