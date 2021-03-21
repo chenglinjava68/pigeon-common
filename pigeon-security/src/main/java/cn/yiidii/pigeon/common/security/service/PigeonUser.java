@@ -1,16 +1,17 @@
 
 package cn.yiidii.pigeon.common.security.service;
 
-import cn.yiidii.pigeon.rbac.api.dto.ResourceDTO;
+import cn.yiidii.pigeon.rbac.api.dto.MenuDTO;
+import cn.yiidii.pigeon.rbac.api.dto.PermissionDTO;
 import cn.yiidii.pigeon.rbac.api.dto.UserDTO;
 import lombok.Getter;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -33,12 +34,10 @@ public class PigeonUser extends User {
     }
 
     public static PigeonUser transPigeonUser(UserDTO userDTO) {
-        //根据用户的id查询用户的权限
-        List<ResourceDTO> resourceDTOs = userDTO.getResources();
-        List<String> resources = resourceDTOs.stream().map(ResourceDTO::getCode).collect(Collectors.toList());
-        //将permissions转成数组
-        String[] permissionArray = new String[resources.size()];
-        resources.toArray(permissionArray);
+        // 将permissions转成数组
+        List<PermissionDTO> permissions = userDTO.getPermissions();
+        Set<String> permissionSet = permissions.stream().map(PermissionDTO::getCode).collect(Collectors.toSet());
+        String[] permissionArray = permissionSet.toArray(new String[permissionSet.size()]);
 
         return new PigeonUser(userDTO.getId(), userDTO.getUsername(), userDTO.getPassword(),
                 true, true, true, true, AuthorityUtils.createAuthorityList(permissionArray));

@@ -2,21 +2,17 @@ package cn.yiidii.pigeon.common.security.service;
 
 import cn.yiidii.pigeon.common.core.base.R;
 import cn.yiidii.pigeon.common.core.exception.BizException;
-import cn.yiidii.pigeon.rbac.api.dto.ResourceDTO;
 import cn.yiidii.pigeon.rbac.api.dto.UserDTO;
 import cn.yiidii.pigeon.rbac.api.feign.UserFeign;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author: YiiDii Wang
