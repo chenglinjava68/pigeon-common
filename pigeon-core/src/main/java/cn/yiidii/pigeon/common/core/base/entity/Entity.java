@@ -1,5 +1,6 @@
 package cn.yiidii.pigeon.common.core.base.entity;
 
+import cn.yiidii.pigeon.common.core.base.enumeration.Status;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,9 +32,9 @@ public class Entity<T> extends SuperEntity<T> {
     public static final String UPDATED_BY_COLUMN = "updated_by";
     private static final long serialVersionUID = 5169873634279173683L;
 
-    @ApiModelProperty(value = "状态（0：正常；20：不可用；30：删除）")
+    @ApiModelProperty(value = "状态", allowableValues = "ENABLED,")
     @TableField(value = "status")
-    protected Integer status;
+    protected Status status;
 
     @ApiModelProperty(value = "最后修改时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
