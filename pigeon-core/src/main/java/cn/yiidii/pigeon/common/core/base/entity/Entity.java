@@ -32,7 +32,7 @@ public class Entity<T> extends SuperEntity<T> {
     public static final String UPDATED_BY_COLUMN = "updated_by";
     private static final long serialVersionUID = 5169873634279173683L;
 
-    @ApiModelProperty(value = "状态", allowableValues = "ENABLED,")
+    @ApiModelProperty(value = "状态", allowableValues = "ENABLED,DISABLED,DELETED")
     @TableField(value = "status")
     protected Status status;
 
