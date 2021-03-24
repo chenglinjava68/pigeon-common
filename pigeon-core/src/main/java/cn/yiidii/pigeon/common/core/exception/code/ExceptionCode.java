@@ -23,36 +23,24 @@ public enum ExceptionCode implements BaseExceptionCode {
     CAPTCHA_ERROR(-12, "验证码校验失败"),
     JSON_PARSE_ERROR(-13, "JSON解析异常"),
 
-
     OK(200, "OK"),
     BAD_REQUEST(400, "错误的请求"),
-    /**
-     * {@code 401 Unauthorized}.
-     *
-     * @see <a href="http://tools.ietf.org/html/rfc7235#section-3.1">HTTP/1.1: Authentication, section 3.1</a>
-     */
     UNAUTHORIZED(401, "未经授权"),
-    /**
-     * {@code 404 Not Found}.
-     *
-     * @see <a href="http://tools.ietf.org/html/rfc7231#section-6.5.4">HTTP/1.1: Semantics and Content, section 6.5.4</a>
-     */
     NOT_FOUND(404, "没有找到资源"),
     METHOD_NOT_ALLOWED(405, "不支持当前请求类型"),
-
     TOO_MANY_REQUESTS(429, "请求超过次数限制"),
+
     INTERNAL_SERVER_ERROR(500, "内部服务错误"),
     BAD_GATEWAY(502, "网关错误"),
     GATEWAY_TIMEOUT(504, "网关超时"),
-    //系统相关 end
 
     REQUIRED_FILE_PARAM_EX(1001, "请求中必须至少包含一个有效文件"),
 
     DATA_SAVE_ERROR(2000, "新增数据失败"),
     DATA_UPDATE_ERROR(2001, "修改数据失败"),
     TOO_MUCH_DATA_ERROR(2002, "批量新增数据过多"),
-    //jwt token 相关 start
 
+    // auth相关
     JWT_BASIC_INVALID(40000, "无效的基本身份验证令牌"),
     JWT_TOKEN_EXPIRED(40001, "会话超时，请重新登录"),
     JWT_SIGNATURE(40002, "不合法的token，请认真比对 token 的签名"),
@@ -63,8 +51,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     JWT_USER_ENABLED(40007, "用户已经被禁用！"),
     JWT_OFFLINE(40008, "您已在另一个设备登录！"),
     JWT_NOT_LOGIN(40009, "请先登录！"),
-    //jwt token 相关 end
-
+    THIRD_PARTY_LOGIN(40010, "第三方登陆失败"),
     ;
 
     private final int code;
