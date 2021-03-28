@@ -52,6 +52,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     JWT_OFFLINE(40008, "您已在另一个设备登录！"),
     JWT_NOT_LOGIN(40009, "请先登录！"),
     THIRD_PARTY_LOGIN(40010, "第三方登陆失败"),
+    UNSUPPORTED_PLATFORM(40011, "不支持的平台"),
     ;
 
     private final int code;
