@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
  * @create: 2021-02-15 22:06
  */
 @UtilityClass
+@Deprecated
 public class HttpClientUtil {
 
     /**
