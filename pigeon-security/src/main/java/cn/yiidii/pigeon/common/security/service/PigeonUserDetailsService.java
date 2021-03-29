@@ -1,6 +1,7 @@
 package cn.yiidii.pigeon.common.security.service;
 
 import cn.yiidii.pigeon.common.core.base.R;
+import cn.yiidii.pigeon.common.core.base.enumeration.Status;
 import cn.yiidii.pigeon.common.core.exception.BizException;
 import cn.yiidii.pigeon.rbac.api.dto.UserDTO;
 import cn.yiidii.pigeon.rbac.api.feign.UserFeign;
@@ -35,10 +36,12 @@ public class PigeonUserDetailsService implements UserDetailsService {
         log.info("loadUserByUsername username: {}", username);
         R<UserDTO> result = userFeign.getUserDTOByUsername(username);
         UserDTO userDTO = result.getData();
-        if (Objects.isNull(userDTO)) {
+        if (Objects.isNull(userDTO) || userDTO.getStatus().equals(Status.DELETED)) {
             throw new BizException("用户不存在");
         }
-
+        if (userDTO.getStatus().equals(Status.DISABLED)) {
+            throw new BizException("账户已被禁用");
+        }
         return getUserDetails(result);
     }
 
