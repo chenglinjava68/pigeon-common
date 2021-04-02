@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  * @author zuihou
  * @date 2019/05/05
  */
-@SuperBuilder
+@SuperBuilder(builderMethodName = "entityBuilder")
 @Getter
 @Setter
 @Accessors(chain = true)
