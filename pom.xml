@@ -17,6 +17,7 @@
         <module>pigeon-knife4j</module>
         <module>pigeon-rabbit</module>
         <module>pigeon-mail</module>
+        <module>pigeon-kafka</module>
     </modules>
 
     <properties>
