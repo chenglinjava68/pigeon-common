@@ -1,7 +1,6 @@
 package cn.yiidii.pigeon.log.aspect;
 
 import cn.hutool.core.util.StrUtil;
-import cn.yiidii.pigeon.common.core.constant.StringPool;
 import cn.yiidii.pigeon.common.core.util.WebUtils;
 import cn.yiidii.pigeon.log.annotation.Log;
 import com.alibaba.fastjson.JSONObject;
@@ -15,12 +14,16 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,6 +36,16 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 @Component
 public class LogAspect {
+
+    /**
+     * 解析spel表达式
+     */
+    ExpressionParser parser = new SpelExpressionParser();
+
+    /**
+     * 将方法参数纳入Spring管理
+     */
+    LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
 
     @Autowired
     private final ApplicationContext applicationContext;
@@ -63,18 +76,26 @@ public class LogAspect {
             return point.proceed();
         }
         //　获取注解里的value值
-        Method targetMethod = resolveMethod(point);
-        Log logAnn = targetMethod.getAnnotation(Log.class);
+        Method method = ((MethodSignature) point.getSignature()).getMethod();
+        Log logAnn = method.getAnnotation(Log.class);
         // 打印执行时间
         long startTime = System.nanoTime();
         // 请求方法
         String url = request.getRequestURI();
-        String method = request.getMethod();
+        String reqMethod = request.getMethod();
 
         // 获取IP和地区
 
         // 参数
-        String requestParam = getArgs(point.getArgs(), request);
+        Object[] args = point.getArgs();
+        String spel = logAnn.content();
+        String[] parameterNameArr = discoverer.getParameterNames(method);
+        //将参数纳入Spring管理
+        EvaluationContext context = new StandardEvaluationContext();
+        for (int len = 0; len < parameterNameArr.length; len++) {
+            context.setVariable(parameterNameArr[len], args[len]);
+        }
+        spel = parser.parseExpression(spel).getValue(context).toString();
 
         // 计算耗时
         long tookTime = 0L;
@@ -86,10 +107,9 @@ public class LogAspect {
 
         JSONObject jo = new JSONObject();
         jo.put("url", url);
-        jo.put("method", method);
-        jo.put("requestParam", requestParam);
+        jo.put("method", reqMethod);
+        jo.put("content", spel);
         jo.put("tookTime", tookTime);
-        jo.put("content", logAnn.value());
 
         // 这里先只打印
         log.info(StrUtil.format("操作日志: {}", jo.toJSONString()));
@@ -131,30 +151,5 @@ public class LogAspect {
         }
         return null;
     }
-
-    /**
-     * 获取请求参数
-     *
-     * @param args
-     * @param request
-     * @return
-     */
-    private String getArgs(Object[] args, HttpServletRequest request) {
-        String strArgs = StringPool.EMPTY;
-
-        try {
-            if (!request.getContentType().contains("multipart/form-data")) {
-                strArgs = JSONObject.toJSONString(args);
-            }
-        } catch (Exception e) {
-            try {
-                strArgs = Arrays.toString(args);
-            } catch (Exception ex) {
-                log.warn("解析参数异常", ex);
-            }
-        }
-        return strArgs;
-    }
-
 
 }

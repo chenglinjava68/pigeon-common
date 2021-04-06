@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Log {
 
-    String value() default "";
+    String content() default "";
 
     String exception() default "Pigeon系统内部异常";
 
