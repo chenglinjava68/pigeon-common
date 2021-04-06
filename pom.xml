@@ -18,6 +18,7 @@
         <module>pigeon-rabbit</module>
         <module>pigeon-mail</module>
         <module>pigeon-kafka</module>
+        <module>pigeon-log</module>
     </modules>
 
     <properties>
