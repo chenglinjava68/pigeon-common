@@ -79,11 +79,11 @@ public final class ContextConstants {
     /**
      * 日志链路追踪id信息头
      */
-    public static final String TRACE_ID_HEADER = "x-trace-header";
+    public static final String PIGEON_TRACE_ID = "pigeon-trace-id";
     /**
      * 日志链路追踪id日志标志
      */
-    public static final String LOG_TRACE_ID = "trace";
+    public static final String LOG_TRACE_ID = "trace-id";
 
     /**
      * 灰度发布版本号
