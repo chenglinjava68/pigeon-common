@@ -1,8 +1,10 @@
 package cn.yiidii.pigeon.log.aspect;
 
-import cn.hutool.core.util.StrUtil;
+import cn.yiidii.pigeon.common.core.util.SpringContextHolder;
 import cn.yiidii.pigeon.common.core.util.WebUtils;
 import cn.yiidii.pigeon.log.annotation.Log;
+import cn.yiidii.pigeon.log.event.LogEvent;
+import cn.yiidii.pigeon.rbac.api.form.OptLogForm;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -105,15 +107,21 @@ public class LogAspect {
             tookTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
         }
 
-        JSONObject jo = new JSONObject();
-        jo.put("url", url);
-        jo.put("method", reqMethod);
-        jo.put("content", spel);
-        jo.put("tookTime", tookTime);
-
-        // 这里先只打印
-        log.info(StrUtil.format("操作日志: {}", jo.toJSONString()));
-
+        OptLogForm optLogForm = OptLogForm.builder()
+                .type("OPTLOG")
+                .traceId("")
+                .title("")
+                .operation(spel)
+                .url(url)
+                .method(reqMethod)
+                .params(JSONObject.toJSONString(args))
+                .ip("")
+                .executeTime(tookTime)
+                .location("")
+                .exception(logAnn.exception())
+                .build();
+        log.info("publish logEvent: {}", JSONObject.toJSON(optLogForm));
+        SpringContextHolder.publishEvent(new LogEvent(optLogForm));
         return result;
     }
 

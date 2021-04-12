@@ -50,10 +50,10 @@ public class TraceFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             String traceId = TraceUtil.getTraceId(request);
-            if (StringUtils.isBlank(traceId)) {
-                WebUtils.renderJson(response, R.failed("缺少trace-id头"));
-            }
-            log.info("traceId: {}", traceId);
+//            if (StringUtils.isBlank(traceId)) {
+//                WebUtils.renderJson(response, R.failed("缺少trace-id头"));
+//            }
+            log.info("request url: {} ; traceId: {}", request.getRequestURL(), traceId);
             TraceUtil.mdcTraceId(traceId);
             filterChain.doFilter(request, response);
         } finally {
