@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.yiidii.pigeon.common.feign.config.FeignInterceptorConfiguration
+
+

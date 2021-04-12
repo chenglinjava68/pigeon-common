@@ -1,8 +1,12 @@
 package cn.yiidii.pigeon.common.core.filter;
 
+import cn.yiidii.pigeon.common.core.base.R;
+import cn.yiidii.pigeon.common.core.exception.BizException;
 import cn.yiidii.pigeon.common.core.properties.PigeonTraceProperties;
 import cn.yiidii.pigeon.common.core.util.TraceUtil;
+import cn.yiidii.pigeon.common.core.util.WebUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -46,7 +50,10 @@ public class TraceFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             String traceId = TraceUtil.getTraceId(request);
-            log.error("traceId: {}", traceId);
+            if (StringUtils.isBlank(traceId)) {
+                WebUtils.renderJson(response, R.failed("缺少trace-id头"));
+            }
+            log.info("traceId: {}", traceId);
             TraceUtil.mdcTraceId(traceId);
             filterChain.doFilter(request, response);
         } finally {

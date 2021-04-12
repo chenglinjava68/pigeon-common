@@ -19,6 +19,7 @@
         <module>pigeon-mail</module>
         <module>pigeon-kafka</module>
         <module>pigeon-log</module>
+        <module>pigeon-feign</module>
     </modules>
 
     <properties>
