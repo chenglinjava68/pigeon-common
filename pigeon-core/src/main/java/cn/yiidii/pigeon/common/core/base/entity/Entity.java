@@ -30,7 +30,7 @@ public class Entity<T> extends SuperEntity<T> {
     public static final String UPDATED_BY = "updatedBy";
     public static final String UPDATE_TIME_COLUMN = "update_time";
     public static final String UPDATED_BY_COLUMN = "updated_by";
-    private static final long serialVersionUID = 5169873634279173683L;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "状态", allowableValues = "ENABLED,DISABLED,DELETED")
     @TableField(value = "status")

@@ -35,7 +35,7 @@ public class SuperEntity<T> implements Serializable {
     public static final String CREATED_BY = "createdBy";
     public static final String CREATED_BY_COLUMN = "created_by";
 
-    private static final long serialVersionUID = -8036609048830834737L;
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "主键")
