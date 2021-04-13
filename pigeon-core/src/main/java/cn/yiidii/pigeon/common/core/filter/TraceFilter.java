@@ -32,11 +32,6 @@ import java.io.IOException;
 @ConditionalOnClass(Filter.class)
 public class TraceFilter extends OncePerRequestFilter {
 
-    @PostConstruct
-    public void init() {
-        logger.info("===== TraceFilter init...");
-    }
-
     @Autowired
     private PigeonTraceProperties traceProperties;
 
@@ -53,7 +48,7 @@ public class TraceFilter extends OncePerRequestFilter {
 //            if (StringUtils.isBlank(traceId)) {
 //                WebUtils.renderJson(response, R.failed("缺少trace-id头"));
 //            }
-            log.info("request url: {} ; traceId: {}", request.getRequestURL(), traceId);
+//            log.info("request url: {} ; traceId: {}", request.getRequestURL(), traceId);
             TraceUtil.mdcTraceId(traceId);
             filterChain.doFilter(request, response);
         } finally {

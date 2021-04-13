@@ -1,13 +1,15 @@
 package cn.yiidii.pigeon.common.feign.config;
 
 import cn.yiidii.pigeon.common.core.constant.ContextConstants;
+import cn.yiidii.pigeon.common.core.util.ContextUtil;
 import cn.yiidii.pigeon.common.core.util.TraceUtil;
+import com.alibaba.fastjson.JSONObject;
 import feign.RequestInterceptor;
-import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -56,6 +58,12 @@ public class FeignInterceptorConfiguration {
                 if (StringUtils.isNotBlank(traceId)) {
                     requestTemplate.header(ContextConstants.LOG_TRACE_ID, traceId);
                 }
+            }
+
+            // Authorization
+            String authorization = ContextUtil.getAuthorization();
+            if (StringUtils.isNotBlank(authorization)) {
+                requestTemplate.header(HttpHeaders.AUTHORIZATION, authorization);
             }
         };
     }

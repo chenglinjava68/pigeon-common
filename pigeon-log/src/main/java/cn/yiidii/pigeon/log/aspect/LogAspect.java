@@ -1,5 +1,6 @@
 package cn.yiidii.pigeon.log.aspect;
 
+import cn.yiidii.pigeon.common.core.util.ContextUtil;
 import cn.yiidii.pigeon.common.core.util.SpringContextHolder;
 import cn.yiidii.pigeon.common.core.util.WebUtils;
 import cn.yiidii.pigeon.log.annotation.Log;
@@ -23,9 +24,12 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.ContextLoaderListener;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -110,7 +114,7 @@ public class LogAspect {
         OptLogForm optLogForm = OptLogForm.builder()
                 .type("OPTLOG")
                 .traceId("")
-                .title("")
+                .title("title")
                 .operation(spel)
                 .url(url)
                 .method(reqMethod)
@@ -120,7 +124,8 @@ public class LogAspect {
                 .location("")
                 .exception(logAnn.exception())
                 .build();
-        log.info("publish logEvent: {}", JSONObject.toJSON(optLogForm));
+        log.info("准备 publish Event");
+        log.error("aaa loader: {}", Objects.isNull(ContextLoaderListener.getCurrentWebApplicationContext()));
         SpringContextHolder.publishEvent(new LogEvent(optLogForm));
         return result;
     }
