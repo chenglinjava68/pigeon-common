@@ -124,8 +124,6 @@ public class LogAspect {
                 .location("")
                 .exception(logAnn.exception())
                 .build();
-        log.info("准备 publish Event");
-        log.error("aaa loader: {}", Objects.isNull(ContextLoaderListener.getCurrentWebApplicationContext()));
         SpringContextHolder.publishEvent(new LogEvent(optLogForm));
         return result;
     }

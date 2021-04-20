@@ -22,7 +22,6 @@ import java.util.Objects;
  */
 @Slf4j
 @Setter
-@Component
 public class LogListener {
 
     private SysLogFeign sysLogFeign;
@@ -40,13 +39,7 @@ public class LogListener {
     @EventListener(LogEvent.class)
     public void saveSysLog(LogEvent event) {
         OptLogForm optLogForm = (OptLogForm) event.getSource();
-        log.info("日志监听: {}", JSONObject.toJSON(optLogForm));
-        if (Objects.isNull(sysLogFeign)) {
-            log.error("sysLogFeign is null");
-            sysLogFeign = SpringContextHolder.getBean(SysLogFeign.class);
-        }
-        R optLog = sysLogFeign.createOptLog(optLogForm);
-        log.info("EventListener optLog resp: {}", JSONObject.toJSON(optLog));
+        sysLogFeign.createOptLog(optLogForm);
     }
 
 }

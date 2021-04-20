@@ -24,11 +24,6 @@ import javax.annotation.PostConstruct;
 @ConditionalOnWebApplication
 public class LogConfiguration {
 
-    @PostConstruct
-    public void init () {
-        log.info("===== LogConfiguration init...");
-    }
-
     private final SysLogFeign sysLogFeign;
 
     @Bean
