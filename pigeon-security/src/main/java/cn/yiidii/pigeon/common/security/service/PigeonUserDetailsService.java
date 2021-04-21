@@ -1,5 +1,6 @@
 package cn.yiidii.pigeon.common.security.service;
 
+import cn.hutool.core.util.StrUtil;
 import cn.yiidii.pigeon.common.core.base.R;
 import cn.yiidii.pigeon.common.core.base.enumeration.Status;
 import cn.yiidii.pigeon.common.core.exception.BizException;
@@ -37,7 +38,7 @@ public class PigeonUserDetailsService implements UserDetailsService {
         R<UserDTO> result = userFeign.getUserDTOByUsername(username);
         UserDTO userDTO = result.getData();
         if (Objects.isNull(userDTO) || userDTO.getStatus().equals(Status.DELETED)) {
-            throw new BizException("用户不存在");
+            throw new BizException(StrUtil.format("用户[{}]不存在", username));
         }
         if (userDTO.getStatus().equals(Status.DISABLED)) {
             throw new BizException("账户已被禁用");

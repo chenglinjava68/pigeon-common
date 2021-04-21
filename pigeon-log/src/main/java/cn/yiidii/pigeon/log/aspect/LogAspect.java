@@ -1,7 +1,7 @@
 package cn.yiidii.pigeon.log.aspect;
 
-import cn.yiidii.pigeon.common.core.util.ContextUtil;
 import cn.yiidii.pigeon.common.core.util.SpringContextHolder;
+import cn.yiidii.pigeon.common.core.util.TraceUtil;
 import cn.yiidii.pigeon.common.core.util.WebUtils;
 import cn.yiidii.pigeon.log.annotation.Log;
 import cn.yiidii.pigeon.log.event.LogEvent;
@@ -24,12 +24,9 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.ContextLoaderListener;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -90,8 +87,6 @@ public class LogAspect {
         String url = request.getRequestURI();
         String reqMethod = request.getMethod();
 
-        // 获取IP和地区
-
         // 参数
         Object[] args = point.getArgs();
         String spel = logAnn.content();
@@ -111,17 +106,21 @@ public class LogAspect {
             tookTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
         }
 
+        String ipAddr = WebUtils.getIpAddr(request);
+        String location = WebUtils.getLocationByIp(ipAddr);
+        String traceId = TraceUtil.getTraceId(request);
+
         OptLogForm optLogForm = OptLogForm.builder()
-                .type("OPTLOG")
-                .traceId("")
-                .title("title")
+                .type("")
+                .traceId(traceId)
+                .title("")
                 .operation(spel)
                 .url(url)
                 .method(reqMethod)
                 .params(JSONObject.toJSONString(args))
-                .ip("")
+                .ip(ipAddr)
                 .executeTime(tookTime)
-                .location("")
+                .location(location)
                 .exception(logAnn.exception())
                 .build();
         SpringContextHolder.publishEvent(new LogEvent(optLogForm));

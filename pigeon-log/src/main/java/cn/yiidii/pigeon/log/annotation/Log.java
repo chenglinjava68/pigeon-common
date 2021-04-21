@@ -17,6 +17,6 @@ public @interface Log {
 
     String content() default "";
 
-    String exception() default "Pigeon系统内部异常";
+    String exception() default "";
 
 }
