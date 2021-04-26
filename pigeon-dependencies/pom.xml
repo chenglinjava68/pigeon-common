@@ -39,6 +39,7 @@
         <seata.version>1.4.1</seata.version>
         <dozer.version>6.5.0</dozer.version>
         <transmittable.version>2.12.1</transmittable.version>
+        <aliyun-log-logback-appender.version>0.1.18</aliyun-log-logback-appender.version>
     </properties>
 
     <dependencyManagement>
@@ -223,7 +224,12 @@
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${transmittable.version}</version>
             </dependency>
-
+            <!-- 阿里云日志appender -->
+            <dependency>
+                <groupId>com.aliyun.openservices</groupId>
+                <artifactId>aliyun-log-logback-appender</artifactId>
+                <version>${aliyun-log-logback-appender.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
