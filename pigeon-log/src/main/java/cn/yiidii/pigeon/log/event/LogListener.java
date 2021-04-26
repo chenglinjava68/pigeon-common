@@ -39,9 +39,10 @@ public class LogListener {
     @EventListener(LogEvent.class)
     public void saveSysLog(LogEvent event) {
         OptLogForm optLogForm = (OptLogForm) event.getSource();
-        log.info("日志监听: {}", JSONObject.toJSONString(optLogForm));
         R resp = sysLogFeign.createOptLog(optLogForm);
-        log.info("日志resp: {}", JSONObject.toJSONString(resp));
+        if (resp.getCode() != 0) {
+            log.info("操作日志创建失败, resp: {}", JSONObject.toJSONString(resp));
+        }
     }
 
 }
