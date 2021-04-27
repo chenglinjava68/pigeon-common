@@ -1,4 +1,5 @@
 <configuration>
+    <property resource="bootstrap.yml"/>
 
     <springProperty scope="context" name="log.path" source="pigeon.log.path" defaultValue="logs"/>
     <springProperty scope="context" name="log.level" source="pigeon.log.level" defaultValue="INFO"/>
