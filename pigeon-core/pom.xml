@@ -15,6 +15,11 @@
     </properties>
 
     <dependencies>
+        <!-- Spring AOP -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
         <!-- spring mvc -->
         <dependency>
             <groupId>org.springframework</groupId>
