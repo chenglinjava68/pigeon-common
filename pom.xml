@@ -20,6 +20,7 @@
         <module>pigeon-starter-kafka</module>
         <module>pigeon-starter-log</module>
         <module>pigeon-starter-feign</module>
+        <module>pigeon-starter-redis</module>
     </modules>
 
     <properties>
