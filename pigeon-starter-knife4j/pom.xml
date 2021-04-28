@@ -8,21 +8,26 @@
         <groupId>cn.yiidii.pigeon</groupId>
         <version>1.0.0</version>
     </parent>
-    <artifactId>pigeon-rabbit</artifactId>
-    <version>1.0.0</version>
+
+    <artifactId>pigeon-starter-knife4j</artifactId>
 
     <properties>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.yiidii.pigeon</groupId>
-            <artifactId>pigeon-core</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
