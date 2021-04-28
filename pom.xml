@@ -13,13 +13,13 @@
     <modules>
         <module>pigeon-dependencies</module>
         <module>pigeon-core</module>
-        <module>pigeon-security</module>
-        <module>pigeon-knife4j</module>
-        <module>pigeon-rabbit</module>
-        <module>pigeon-mail</module>
-        <module>pigeon-kafka</module>
-        <module>pigeon-log</module>
-        <module>pigeon-feign</module>
+        <module>pigeon-starter-security</module>
+        <module>pigeon-starter-knife4j</module>
+        <module>pigeon-starter-rabbit</module>
+        <module>pigeon-starter-mail</module>
+        <module>pigeon-starter-kafka</module>
+        <module>pigeon-starter-log</module>
+        <module>pigeon-starter-feign</module>
     </modules>
 
     <properties>
