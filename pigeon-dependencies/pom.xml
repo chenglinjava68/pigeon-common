@@ -41,6 +41,7 @@
         <transmittable.version>2.12.1</transmittable.version>
         <aliyun-log-logback-appender.version>0.1.18</aliyun-log-logback-appender.version>
         <redisson.starter.version>3.10.6</redisson.starter.version>
+        <dynamic-datasource.version>3.3.2</dynamic-datasource.version>
     </properties>
 
     <dependencyManagement>
@@ -237,6 +238,13 @@
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.starter.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

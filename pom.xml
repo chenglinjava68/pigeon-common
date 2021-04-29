@@ -22,6 +22,7 @@
         <module>pigeon-starter-feign</module>
         <module>pigeon-starter-redis</module>
         <module>pigeon-starter-idempotent</module>
+        <module>pigeon-starter-datasource</module>
     </modules>
 
     <properties>
