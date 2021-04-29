@@ -2,6 +2,7 @@ package cn.yiidii.pigeon.common.core.config;
 
 import cn.hutool.core.util.StrUtil;
 import cn.yiidii.pigeon.common.core.base.R;
+import cn.yiidii.pigeon.common.core.exception.BaseUncheckedException;
 import cn.yiidii.pigeon.common.core.exception.BizException;
 import cn.yiidii.pigeon.common.core.exception.code.ExceptionCode;
 import lombok.extern.slf4j.Slf4j;
@@ -203,6 +204,12 @@ public class GlobalExceptionHandler {
             return this.bizException((BizException) ex.getCause());
         }
         return R.failed(ExceptionCode.SYSTEM_BUSY.getCode(), ExceptionCode.SYSTEM_BUSY.getMsg(), ex.getMessage());
+    }
+
+    @ExceptionHandler(BaseUncheckedException.class)
+    public R otherExceptionHandler(BaseUncheckedException ex) {
+        log.warn("BaseUncheckedException:", ex);
+        return R.failed(ex.getCode(), ex.getMessage());
     }
 
 
