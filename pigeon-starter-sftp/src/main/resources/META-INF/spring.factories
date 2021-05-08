@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.yiidii.pigeon.common.sftp.prop.SftpProperties, \
+  cn.yiidii.pigeon.common.sftp.config.SftpAutoConfiguration
+

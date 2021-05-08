@@ -23,6 +23,7 @@
         <module>pigeon-starter-redis</module>
         <module>pigeon-starter-idempotent</module>
         <module>pigeon-starter-datasource</module>
+        <module>pigeon-starter-sftp</module>
     </modules>
 
     <properties>
