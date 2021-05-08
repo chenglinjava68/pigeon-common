@@ -43,6 +43,8 @@
         <redisson.starter.version>3.10.6</redisson.starter.version>
         <dynamic-datasource.version>3.3.2</dynamic-datasource.version>
         <spring-boot-admin.version>2.3.1</spring-boot-admin.version>
+        <jsch.version>0.1.55</jsch.version>
+        <apache.commons-pool2.version>2.9.0</apache.commons-pool2.version>
     </properties>
 
     <dependencyManagement>
@@ -260,6 +262,18 @@
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
                 <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <!-- sftp -->
+            <dependency>
+                <groupId>com.jcraft</groupId>
+                <artifactId>jsch</artifactId>
+                <version>${jsch.version}</version>
+            </dependency>
+            <!-- commons-pool2 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${apache.commons-pool2.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
