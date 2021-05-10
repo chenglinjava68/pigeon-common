@@ -12,7 +12,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum SftpExceptionCode implements BaseExceptionCode {
 
-    SFTP_CONNECTION_FAILED(91001, "Sftp连接失败");
+    SFTP_CONNECTION_FAILED(91001, "Sftp连接失败"),
+    MKDIR_PATH_ERROR(91002, "创建目录路径错误");
 
     private final int code;
     private String msg;
