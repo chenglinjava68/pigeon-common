@@ -1,7 +1,9 @@
 package cn.yiidii.pigeon.common.core.exception;
 
+import cn.yiidii.pigeon.common.core.exception.code.BaseExceptionCode;
+
 /**
- *  非运行时异常基类，所有自定义非运行时异常继承该类
+ * 非运行时异常基类，所有自定义非运行时异常继承该类
  *
  * @author YiiDii Wang
  * @date 2021/2/11 14:46:57
@@ -48,6 +50,11 @@ public class BaseUncheckedException extends RuntimeException implements BaseExce
         this.message = String.format(format, args);
     }
 
+    public BaseUncheckedException(BaseExceptionCode baseExceptionCode) {
+        super(baseExceptionCode.getMsg());
+        this.code = baseExceptionCode.getCode();
+        this.message = baseExceptionCode.getMsg();
+    }
 
     @Override
     public String getMessage() {
