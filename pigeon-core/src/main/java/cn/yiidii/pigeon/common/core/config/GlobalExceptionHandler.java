@@ -54,14 +54,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BizException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R bizException(BizException ex) {
         log.warn("BizException:", ex);
         return R.failed(ex.getCode(), ex.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R httpMessageNotReadableException(HttpMessageNotReadableException ex) {
         log.warn("HttpMessageNotReadableException:", ex);
         String message = ex.getMessage();
@@ -73,7 +71,6 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BindException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R bindException(BindException ex) {
         log.warn("BindException:", ex);
         try {
@@ -96,7 +93,6 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         log.warn("MethodArgumentTypeMismatchException:", ex);
         String msg = "参数：[" + ex.getName() + "]的传入值：[" + ex.getValue() +
@@ -105,35 +101,30 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R illegalStateException(IllegalStateException ex) {
         log.warn("IllegalStateException:", ex);
         return R.failed(ExceptionCode.ILLEGAL_ARGUMENT_EX.getCode(), ExceptionCode.ILLEGAL_ARGUMENT_EX.getMsg(), ex.getMessage());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R missingServletRequestParameterException(MissingServletRequestParameterException ex) {
         log.warn("MissingServletRequestParameterException:", ex);
         return R.failed(ExceptionCode.ILLEGAL_ARGUMENT_EX.getCode(), "缺少必须的[" + ex.getParameterType() + "]类型的参数[" + ex.getParameterName() + "]", ex.getMessage());
     }
 
     @ExceptionHandler(NullPointerException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R nullPointerException(NullPointerException ex) {
         log.warn("NullPointerException:", ex);
         return R.failed(ExceptionCode.NULL_POINT_EX.getCode(), ExceptionCode.NULL_POINT_EX.getMsg(), ex.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R illegalArgumentException(IllegalArgumentException ex) {
         log.warn("IllegalArgumentException:", ex);
         return R.failed(ExceptionCode.ILLEGAL_ARGUMENT_EX.getCode(), ExceptionCode.ILLEGAL_ARGUMENT_EX.getMsg(), ex.getMessage());
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R httpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException ex) {
         log.warn("HttpMediaTypeNotSupportedException:", ex);
         MediaType contentType = ex.getContentType();
@@ -144,14 +135,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MissingServletRequestPartException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R missingServletRequestPartException(MissingServletRequestPartException ex) {
         log.warn("MissingServletRequestPartException:", ex);
         return R.failed(ExceptionCode.METHOD_NOT_ALLOWED.getCode(), ExceptionCode.REQUIRED_FILE_PARAM_EX.getMsg(), ex.getMessage());
     }
 
     @ExceptionHandler(ServletException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R servletException(ServletException ex) {
         log.warn("ServletException:", ex);
         String msg = "UT010016: Not a multi part request";
@@ -162,7 +151,6 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MultipartException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R multipartException(MultipartException ex) {
         log.warn("MultipartException:", ex);
         return R.failed(ExceptionCode.REQUIRED_FILE_PARAM_EX.getCode(), ExceptionCode.REQUIRED_FILE_PARAM_EX.getMsg(), ex.getMessage());
@@ -172,7 +160,6 @@ public class GlobalExceptionHandler {
      * jsr 规范中的验证异常
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R constraintViolationException(ConstraintViolationException ex) {
         log.warn("ConstraintViolationException:", ex);
         Set<ConstraintViolation<?>> violations = ex.getConstraintViolations();
@@ -185,7 +172,6 @@ public class GlobalExceptionHandler {
      * spring 封装的参数验证异常， 在controller中没有写result参数时，会进入
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R methodArgumentNotValidException(MethodArgumentNotValidException ex) {
         log.warn("MethodArgumentNotValidException:", ex);
         return R.failed(ExceptionCode.BASE_VALID_PARAM.getCode(), Objects.requireNonNull(ex.getBindingResult().getFieldError()).getDefaultMessage(), ex.getMessage());
@@ -197,7 +183,6 @@ public class GlobalExceptionHandler {
      * @param ex 异常
      */
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R otherExceptionHandler(Exception ex) {
         log.warn("Exception:", ex);
         if (ex.getCause() instanceof BizException) {
@@ -217,7 +202,6 @@ public class GlobalExceptionHandler {
      * 返回状态码:405
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
         log.warn("HttpRequestMethodNotSupportedException:", ex);
         return R.failed(ExceptionCode.METHOD_NOT_ALLOWED.getCode(), ExceptionCode.METHOD_NOT_ALLOWED.getMsg(), ex.getMessage());
@@ -225,7 +209,6 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(PersistenceException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R persistenceException(PersistenceException ex) {
         log.warn("PersistenceException:", ex);
         if (ex.getCause() instanceof BizException) {
@@ -236,7 +219,6 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(SQLException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R sqlException(SQLException ex) {
         log.warn("SQLException:", ex);
         return R.failed(ExceptionCode.SQL_EX.getCode(), ExceptionCode.SQL_EX.getMsg(), ex.getMessage());

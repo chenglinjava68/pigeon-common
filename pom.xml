@@ -24,6 +24,7 @@
         <module>pigeon-starter-idempotent</module>
         <module>pigeon-starter-datasource</module>
         <module>pigeon-starter-sftp</module>
+        <module>pigeon-starter-strategy</module>
     </modules>
 
     <properties>
