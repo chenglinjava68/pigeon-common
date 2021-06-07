@@ -3,11 +3,16 @@ package cn.yiidii.pigeon.common.strategy.component;
 import cn.yiidii.pigeon.common.strategy.annotation.HandlerType;
 import cn.yiidii.pigeon.common.strategy.exception.DuplicateBizCodeException;
 import cn.yiidii.pigeon.common.strategy.exception.StrategyExceptionCode;
+import cn.yiidii.pigeon.common.strategy.prop.StrategyProperties;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -17,26 +22,43 @@ import org.springframework.core.type.classreading.MetadataReaderFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
+ * HandlerContext Bean的后置处理器
+ *
  * @author YiiDii Wang
- * @create 2021-06-06 12:16
+ * @create 2021-06-06 22:21
  */
-public class HandlerProcessor implements BeanFactoryPostProcessor {
+@Slf4j
+@ConditionalOnClass(StrategyProperties.class)
+@AllArgsConstructor
+public class HandlerContextBeanPostProcessor implements BeanPostProcessor {
+
+    private final StrategyProperties strategyProperties;
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        if (bean instanceof HandlerContext) {
+            HandlerContext handlerContext = (HandlerContext) bean;
+            handlerContextBeanPost(handlerContext);
+        }
+        return bean;
+
+    }
 
     @SneakyThrows
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) {
+    public void handlerContextBeanPost(HandlerContext handlerContext) {
         Map<String, String> handlerMap = Maps.newConcurrentMap();
         // 获取指定报下的所有类
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         MetadataReaderFactory metaReader = new CachingMetadataReaderFactory();
         List<Class<?>> list = Lists.newArrayList();
-        Resource[] resources = resolver.getResources("classpath*:cn/yiidii/pigeon/**/handler/**/*.class");
+        final String classpath = strategyProperties.getClassPath();
+        log.info("策略业务组件扫描classpath: {}", classpath);
+        Resource[] resources = resolver.getResources(classpath);
         ClassLoader loader = ClassLoader.getSystemClassLoader();
         for (Resource resource : resources) {
             MetadataReader reader = metaReader.getMetadataReader(resource);
@@ -66,8 +88,7 @@ public class HandlerProcessor implements BeanFactoryPostProcessor {
                 }
             }
         }
-        HandlerContext handleContext = new HandlerContext(handlerMap);
-        // 将上下文添加到spring bean容器中
-        configurableListableBeanFactory.registerSingleton(HandlerContext.class.getName(), handleContext);
+        handlerContext.setHandlerMap(handlerMap);
+        log.info("扫描到策略业务handler: {}", JSONObject.toJSON(handlerMap.keySet()));
     }
 }

@@ -3,6 +3,7 @@ package cn.yiidii.pigeon.common.strategy.component;
 import cn.yiidii.pigeon.common.strategy.exception.NonBizProcessorException;
 import cn.yiidii.pigeon.common.strategy.exception.StrategyExceptionCode;
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 
 import java.util.Map;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import java.util.Optional;
  * @author YiiDii Wang
  * @create 2021-06-06 12:04
  */
+@Setter
 @AllArgsConstructor
 public class HandlerContext {
 

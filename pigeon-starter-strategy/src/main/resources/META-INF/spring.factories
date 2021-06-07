@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.yiidii.pigeon.common.strategy.component.HandlerProcessor
+  cn.yiidii.pigeon.common.strategy.prop.StrategyProperties,\
+  cn.yiidii.pigeon.common.strategy.component.HandlerContext,\
+  cn.yiidii.pigeon.common.strategy.component.HandlerContextBeanPostProcessor
