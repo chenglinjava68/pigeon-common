@@ -16,9 +16,19 @@
 
     <dependencies>
         <dependency>
+            <groupId>cn.yiidii.pigeon</groupId>
+            <artifactId>pigeon-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
