@@ -19,6 +19,6 @@ import javax.annotation.PostConstruct;
 @ConfigurationProperties(prefix = "pigeon.strategy")
 public class StrategyProperties {
 
-    private String classPath = "classpath*:cn/yiidii/pigeon/**/handler/**/*.class";
+    private String basePackage = "cn.yiidii.pigeon";
 
 }

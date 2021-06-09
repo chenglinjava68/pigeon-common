@@ -19,6 +19,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.util.ClassUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
@@ -37,6 +38,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class HandlerContextBeanPostProcessor implements BeanPostProcessor {
 
+    private static final String RESOURCE_PATTERN = "/**/*" + ClassUtils.CLASS_FILE_SUFFIX;
     private final StrategyProperties strategyProperties;
 
     @Override
@@ -56,14 +58,14 @@ public class HandlerContextBeanPostProcessor implements BeanPostProcessor {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         MetadataReaderFactory metaReader = new CachingMetadataReaderFactory();
         List<Class<?>> list = Lists.newArrayList();
-        final String classpath = strategyProperties.getClassPath();
-        log.info("策略业务组件扫描classpath: {}", classpath);
-        Resource[] resources = resolver.getResources(classpath);
-        ClassLoader loader = ClassLoader.getSystemClassLoader();
+        final String basePackage = strategyProperties.getBasePackage();
+        String classPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + ClassUtils.convertClassNameToResourcePath(basePackage) + RESOURCE_PATTERN;
+        log.info("策略业务组件扫描basePackage: {}; classPath: {}", basePackage, classPath);
+        Resource[] resources = resolver.getResources(classPath);
         for (Resource resource : resources) {
             MetadataReader reader = metaReader.getMetadataReader(resource);
             String className = reader.getClassMetadata().getClassName();
-            Class<?> clazz = loader.loadClass(className);
+            Class<?> clazz = Class.forName(className);
             HandlerType annotation = clazz.getAnnotation(HandlerType.class);
             if (Objects.isNull(annotation)) {
                 continue;
