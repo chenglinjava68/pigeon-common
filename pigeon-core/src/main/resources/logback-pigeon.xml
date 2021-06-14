@@ -87,8 +87,8 @@
 
     <root level="${log.level}">
         <appender-ref ref="CONSOLE"/>
-        <!--<appender-ref ref="ALL_LOG_APPENDER"/>-->
-        <appender-ref ref="ALIYUN"/>
+        <appender-ref ref="ALL_LOG_APPENDER"/>
+<!--        <appender-ref ref="ALIYUN"/>-->
     </root>
 
 </configuration>
