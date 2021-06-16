@@ -19,4 +19,6 @@ public @interface Log {
 
     String exception() default "";
 
+    boolean isPersist() default false;
+
 }

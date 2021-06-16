@@ -1,5 +1,6 @@
 package cn.yiidii.pigeon.log.config;
 
+import cn.yiidii.pigeon.log.aspect.LogAspect;
 import cn.yiidii.pigeon.log.event.LogListener;
 import cn.yiidii.pigeon.rbac.api.feign.SysLogFeign;
 import lombok.RequiredArgsConstructor;
@@ -31,4 +32,8 @@ public class LogConfiguration {
         return new LogListener(sysLogFeign);
     }
 
+    @Bean
+    public LogAspect logAspect() {
+        return new LogAspect();
+    }
 }

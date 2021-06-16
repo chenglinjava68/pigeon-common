@@ -1,5 +1,6 @@
 package cn.yiidii.pigeon.log.aspect;
 
+import cn.hutool.core.util.StrUtil;
 import cn.yiidii.pigeon.common.core.util.SpringContextHolder;
 import cn.yiidii.pigeon.common.core.util.TraceUtil;
 import cn.yiidii.pigeon.common.core.util.WebUtils;
@@ -7,6 +8,9 @@ import cn.yiidii.pigeon.log.annotation.Log;
 import cn.yiidii.pigeon.log.event.LogEvent;
 import cn.yiidii.pigeon.rbac.api.form.OptLogForm;
 import com.alibaba.fastjson.JSONObject;
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -15,19 +19,12 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 日志切面
@@ -37,7 +34,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Aspect
-@Component
 public class LogAspect {
 
     /**
@@ -49,13 +45,6 @@ public class LogAspect {
      * 将方法参数纳入Spring管理
      */
     LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
-
-    @Autowired
-    private final ApplicationContext applicationContext;
-
-    public LogAspect(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
 
     @Pointcut("@annotation(cn.yiidii.pigeon.log.annotation.Log)")
     public void pointcut() {
@@ -123,7 +112,12 @@ public class LogAspect {
                 .location(location)
                 .exception(logAnn.exception())
                 .build();
-        SpringContextHolder.publishEvent(new LogEvent(optLogForm));
+
+        if (logAnn.isPersist()) {
+            SpringContextHolder.publishEvent(new LogEvent(optLogForm));
+        } else {
+            log.info(StrUtil.format("ip: {}; loc: {}, content: [{}]", optLogForm.getIp(), optLogForm.getLocation(), optLogForm.getOperation()));
+        }
         return result;
     }
 
