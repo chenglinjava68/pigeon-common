@@ -25,6 +25,8 @@
         <module>pigeon-starter-datasource</module>
         <module>pigeon-starter-sftp</module>
         <module>pigeon-starter-strategy</module>
+        <module>pigeon-starter-mybatis</module>
+        <module>pigeon-starter-elasticsearch</module>
     </modules>
 
     <properties>
