@@ -86,10 +86,10 @@
         </dependency>
 
         <!-- 阿里云 日志服务-->
-        <dependency>
-            <groupId>com.aliyun.openservices</groupId>
-            <artifactId>aliyun-log-logback-appender</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun.openservices</groupId>-->
+<!--            <artifactId>aliyun-log-logback-appender</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>
