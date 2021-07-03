@@ -45,6 +45,7 @@
         <spring-boot-admin.version>2.3.1</spring-boot-admin.version>
         <jsch.version>0.1.55</jsch.version>
         <apache.commons-pool2.version>2.9.0</apache.commons-pool2.version>
+        <es.version>7.13.2</es.version>
     </properties>
 
     <dependencyManagement>
@@ -235,7 +236,7 @@
                 <artifactId>aliyun-log-logback-appender</artifactId>
                 <version>${aliyun-log-logback-appender.version}</version>
             </dependency>
-            <!-- redisson starter-->
+            <!-- redisson -->
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
@@ -274,6 +275,17 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
                 <version>${apache.commons-pool2.version}</version>
+            </dependency>
+            <!-- elasticSearch -->
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${es.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${es.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
