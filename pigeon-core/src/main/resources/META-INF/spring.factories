@@ -6,5 +6,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   cn.yiidii.pigeon.common.core.util.SpringContextHolder,\
   cn.yiidii.pigeon.common.core.filter.TraceFilter, \
   cn.yiidii.pigeon.common.core.properties.PigeonTraceProperties, \
-  cn.yiidii.pigeon.common.core.filter.ContextFilter
+  cn.yiidii.pigeon.common.core.filter.ContextFilter,\
+  cn.yiidii.pigeon.common.core.config.DozerAutoConfiguration
 

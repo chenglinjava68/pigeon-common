@@ -2,14 +2,14 @@
 <!--    <property resource="bootstrap.yml"/>-->
 
     <springProperty scope="context" name="log.path" source="pigeon.log.path" defaultValue="logs"/>
-    <springProperty scope="context" name="log.level" source="pigeon.log.level" defaultValue="INFO"/>
+    <springProperty scope="context" name="log.level" source="pigeon.log.level" defaultValue="DEBUG"/>
     <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
     <!-- 阿里云日志配置 -->
-    <springProperty scope="context" name="log.ali.endpoint" source="pigeon.log.ali.endpoint"/>
-    <springProperty scope="context" name="log.ali.accessKeyId" source="pigeon.log.ali.accessKeyId"/>
-    <springProperty scope="context" name="log.ali.accessKeySecret" source="pigeon.log.ali.accessKeySecret"/>
-    <springProperty scope="context" name="log.ali.project" source="pigeon.log.ali.project"/>
-    <springProperty scope="context" name="log.ali.logStore" source="pigeon.log.ali.logStore"/>
+<!--    <springProperty scope="context" name="log.ali.endpoint" source="pigeon.log.ali.endpoint"/>-->
+<!--    <springProperty scope="context" name="log.ali.accessKeyId" source="pigeon.log.ali.accessKeyId"/>-->
+<!--    <springProperty scope="context" name="log.ali.accessKeySecret" source="pigeon.log.ali.accessKeySecret"/>-->
+<!--    <springProperty scope="context" name="log.ali.project" source="pigeon.log.ali.project"/>-->
+<!--    <springProperty scope="context" name="log.ali.logStore" source="pigeon.log.ali.logStore"/>-->
 
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
     <conversionRule conversionWord="wex"
@@ -27,7 +27,7 @@
     <!-- 控制台日志 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
+            <level>${log.level}</level>
         </filter>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>${log_pattern_console}</Pattern>
@@ -38,7 +38,7 @@
     <appender name="ALL_LOG_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <append>true</append>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
+            <level>${log.level}</level>
         </filter>
         <file>${log.path}/${spring.application.name}/all.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -55,34 +55,34 @@
     </appender>
 
     <!-- 阿里云日志 -->
-    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
-    <appender name="ALIYUN" class="com.aliyun.openservices.log.logback.LoghubAppender">
-        <!--必选项  start -->
-        <endpoint>${log.ali.endpoint}</endpoint>
-        <accessKeyId>${log.ali.accessKeyId}</accessKeyId>
-        <accessKeySecret>${log.ali.accessKeySecret}</accessKeySecret>
-        <project>${log.ali.project}</project>
-        <logStore>${log.ali.logStore}</logStore>
-        <!--必选项 end -->
+<!--    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>-->
+<!--    <appender name="ALIYUN" class="com.aliyun.openservices.log.logback.LoghubAppender">-->
+<!--        &lt;!&ndash;必选项  start &ndash;&gt;-->
+<!--        <endpoint>${log.ali.endpoint}</endpoint>-->
+<!--        <accessKeyId>${log.ali.accessKeyId}</accessKeyId>-->
+<!--        <accessKeySecret>${log.ali.accessKeySecret}</accessKeySecret>-->
+<!--        <project>${log.ali.project}</project>-->
+<!--        <logStore>${log.ali.logStore}</logStore>-->
+<!--        &lt;!&ndash;必选项 end &ndash;&gt;-->
 
-        <!-- topic 用以区分不同的服务 -->
-        <topic>${spring.application.name}</topic>
-        <totalSizeInBytes>104857600</totalSizeInBytes>
-        <maxBlockMs>0</maxBlockMs>
-        <ioThreadCount>8</ioThreadCount>
-        <batchSizeThresholdInBytes>524288</batchSizeThresholdInBytes>
-        <batchCountThreshold>4096</batchCountThreshold>
-        <lingerMs>2000</lingerMs>
-        <retries>10</retries>
-        <baseRetryBackoffMs>100</baseRetryBackoffMs>
-        <maxRetryBackoffMs>50000</maxRetryBackoffMs>
-        <encoder>
-            <pattern>${log_pattern}</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
-        <timeFormat>yyyy-MM-dd'T'HH:mmZ</timeFormat>
-        <timeZone>Asia/Shanghai</timeZone>
-    </appender>
+<!--        &lt;!&ndash; topic 用以区分不同的服务 &ndash;&gt;-->
+<!--        <topic>${spring.application.name}</topic>-->
+<!--        <totalSizeInBytes>104857600</totalSizeInBytes>-->
+<!--        <maxBlockMs>0</maxBlockMs>-->
+<!--        <ioThreadCount>8</ioThreadCount>-->
+<!--        <batchSizeThresholdInBytes>524288</batchSizeThresholdInBytes>-->
+<!--        <batchCountThreshold>4096</batchCountThreshold>-->
+<!--        <lingerMs>2000</lingerMs>-->
+<!--        <retries>10</retries>-->
+<!--        <baseRetryBackoffMs>100</baseRetryBackoffMs>-->
+<!--        <maxRetryBackoffMs>50000</maxRetryBackoffMs>-->
+<!--        <encoder>-->
+<!--            <pattern>${log_pattern}</pattern>-->
+<!--            <charset>UTF-8</charset>-->
+<!--        </encoder>-->
+<!--        <timeFormat>yyyy-MM-dd'T'HH:mmZ</timeFormat>-->
+<!--        <timeZone>Asia/Shanghai</timeZone>-->
+<!--    </appender>-->
 
 
     <root level="${log.level}">

@@ -241,11 +241,12 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
             HttpResponse resp = HttpRequest.get(url).addHeaders(headers).execute();
 
             if (resp.getStatus() == HttpStatus.HTTP_OK) {
-                String body = resp.body();
+                String body = resp.body().trim();
                 JSONObject respJo = JSONObject.parseObject(body.substring(30, body.length() - 3));
                 location = respJo.getString("addr");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             location = "UNKNOWN";
         }
         return location.trim();
