@@ -1,8 +1,8 @@
 package cn.yiidii.pigeon.common.es.config;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.yiidii.pigeon.common.es.prop.ElasticSearchProperties;
-import com.sun.deploy.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,7 +27,7 @@ public class ElasticSearchConfiguration extends AbstractElasticsearchConfigurati
     @Bean
     public RestHighLevelClient elasticsearchClient() {
         final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-                .connectedTo(StringUtils.join(elasticSearchProperties.getUris(), StrUtil.COMMA))
+                .connectedTo(CollUtil.join(elasticSearchProperties.getUris(), StrUtil.COMMA))
                 .withBasicAuth(elasticSearchProperties.getUsername(), elasticSearchProperties.getPassword())
                 .withSocketTimeout(elasticSearchProperties.getReadTimeout())
                 .build();
