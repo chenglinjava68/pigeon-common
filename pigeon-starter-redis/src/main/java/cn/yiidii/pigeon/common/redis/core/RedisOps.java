@@ -1,22 +1,23 @@
 package cn.yiidii.pigeon.common.redis.core;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.TimeoutUtils;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.SerializationUtils;
-import org.springframework.util.Assert;
-
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.geo.Point;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisGeoCommands.DistanceUnit;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.TimeoutUtils;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.SerializationUtils;
+import org.springframework.util.Assert;
 
 /**
  * redis操作类
@@ -45,6 +46,26 @@ public final class RedisOps {
                 redisTemplate.expire(key, time, TimeUnit.SECONDS);
             }
             return true;
+        } catch (Exception e) {
+            log.error("Exception: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 指定缓存失效时间
+     *
+     * @param key      键
+     * @param time     时间(秒)
+     * @param timeUnit 时间单位
+     * @return Boolean
+     */
+    public Boolean expire(String key, Long time, TimeUnit timeUnit) {
+        try {
+            if (time <= 0) {
+                throw new IllegalArgumentException("time must be greater than 0");
+            }
+            return redisTemplate.expire(key, time, timeUnit);
         } catch (Exception e) {
             log.error("Exception: {}", e.getMessage());
             return false;
@@ -101,6 +122,17 @@ public final class RedisOps {
     public Long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
+
+    /**
+     * 根据key获取过期时间
+     *
+     * @param key 键 不能为 null
+     * @return 时间(秒) 返回 0代表为永久有效
+     */
+    public Long getExpire(String key, TimeUnit timeUnit) {
+        return redisTemplate.getExpire(key, timeUnit);
+    }
+
 
     /**
      * 判断 key是否存在
@@ -183,6 +215,29 @@ public final class RedisOps {
         try {
             if (time > 0) {
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+            } else {
+                set(key, value);
+            }
+            return true;
+        } catch (Exception e) {
+            log.error("Exception: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 普通缓存放入并设置时间
+     *
+     * @param key      键
+     * @param value    值
+     * @param time     时间(秒) time要大于0 如果time小于等于0 将设置无限期
+     * @param timeUnit 单位
+     * @return true成功 false 失败
+     */
+    public Boolean set(String key, Object value, Long time, TimeUnit timeUnit) {
+        try {
+            if (time > 0) {
+                redisTemplate.opsForValue().set(key, value, time, timeUnit);
             } else {
                 set(key, value);
             }
@@ -523,8 +578,7 @@ public final class RedisOps {
      * 通过索引 获取list中的值
      *
      * @param key   键
-     * @param index 索引 index>=0时， 0 表头，1 第二个元素，依次类推；
-     *              index<0时，-1，表尾，-2倒数第二个元素，依次类推
+     * @param index 索引 index>=0时， 0 表头，1 第二个元素，依次类推； index<0时，-1，表尾，-2倒数第二个元素，依次类推
      * @return Object
      */
     public Object lGetIndex(String key, Long index) {
@@ -659,6 +713,75 @@ public final class RedisOps {
     public List<Object> getList(String key, int start, int end, RedisSerializer<Object> valueSerializer) {
         byte[] rawKey = rawKey(key);
         return redisTemplate.execute(connection -> deserializeValues(connection.lRange(rawKey, start, end), valueSerializer), true);
+    }
+
+
+    public boolean hyperSet(String key, Object... item) {
+        try {
+            redisTemplate.opsForHyperLogLog().add(key, item);
+            return true;
+        } catch (Exception e) {
+            log.error("Exception: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean hyperDel(String key) {
+        try {
+            redisTemplate.opsForHyperLogLog().delete(key);
+            return true;
+        } catch (Exception e) {
+            log.error("Exception: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean hyperUnion(String key, String... otherKeys) {
+        try {
+            redisTemplate.opsForHyperLogLog().union(key, otherKeys);
+            return true;
+        } catch (Exception e) {
+            log.error("Exception: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean hyperSize(String... keys) {
+        try {
+            redisTemplate.opsForHyperLogLog().size(keys);
+            return true;
+        } catch (Exception e) {
+            log.error("Exception: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean geoSet(String key, String name, Long latitude, Long longitude) {
+        try {
+            redisTemplate.opsForGeo().add(key, new Point(latitude, longitude), name);
+            return true;
+        } catch (Exception e) {
+            log.error("Exception: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public List<Point> geoGet(String key, String... name) {
+        try {
+            return redisTemplate.opsForGeo().position(key, name);
+        } catch (Exception e) {
+            log.error("Exception: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    public Object geoDist(String key, String name1, String name2, DistanceUnit unit) {
+        try {
+            return redisTemplate.opsForGeo().distance(key, name1, name2, unit);
+        } catch (Exception e) {
+            log.error("Exception: {}", e.getMessage());
+            return null;
+        }
     }
 
     private byte[] rawKey(Object key) {
